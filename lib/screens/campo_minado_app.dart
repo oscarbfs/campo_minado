@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/resultado_widget.dart';
 
 class CampoMinadoApp extends StatelessWidget {
   const CampoMinadoApp({ Key? key }) : super(key: key);
@@ -7,8 +8,9 @@ class CampoMinadoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Campo Minado'),
+        appBar: ResultadoWidget(
+          venceu: false,
+          onReiniciar: () {print('reiniciar');},
         ),
         body: Container(
           child: Text('Tabuleiro'),
