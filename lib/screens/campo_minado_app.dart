@@ -15,22 +15,47 @@ class CampoMinadoApp extends StatefulWidget {
 
 class _CampoMinadoAppState extends State<CampoMinadoApp> {
   bool? _venceu;
-  Tabuleiro _tabuleiro = Tabuleiro(
+  final Tabuleiro _tabuleiro = Tabuleiro(
     linhas: 12,
     colunas: 12,
     qtdeBombas: 3,
   );
 
   void _reiniciar() {
-    print('reiniciar');
+    setState(() {
+      _venceu = null;
+      _tabuleiro.reiniciar();
+    });
   }
 
   void _abrir(Campo campo) {
-    print('abrir');
+    if(_venceu != null) {
+      return;
+    }
+
+    setState(() {
+      try {
+        campo.abrir();
+        if(_tabuleiro.resolvido) {
+          _venceu = true;
+        }
+      } on ExplosaoException {
+        _venceu = false;
+        _tabuleiro.revelarBombas();
+      }
+    });
   }
 
   void _alternarMarcacao(Campo campo) {
-    print('alterar');
+    if(_venceu != null) {
+      return;
+    }
+    setState(() {
+      campo.alternarMarcacao();
+      if(_tabuleiro.resolvido) {
+        _venceu = true;
+      }
+    });
   }
 
   @override
